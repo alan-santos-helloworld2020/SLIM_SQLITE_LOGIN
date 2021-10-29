@@ -82,4 +82,26 @@ final class UserController{
         ->withStatus(200);
     }
 
+    public function deletar(Request $request, Response $response, $args) {
+        global $db;
+        $id = $args["id"];
+        $sql = "DELETE FROM users WHERE id=:id";
+        try {
+            $cnx = $db->conectar();
+            $pstm=$cnx->prepare($sql);
+            $pstm->bindParam(":id",$id);
+            $pstm->execute();
+            $cnx=null; 
+            $response->getBody()->write(json_encode(["Msg"=>TRUE],JSON_UNESCAPED_SLASHES));
+            
+        } catch (PDOException $ex) {
+            $erro = array("Message"=>$ex->getMessage());
+            $response->getBody()->write(json_encode(["Erro"=>$erro]));
+        }
+    
+        return $response
+        ->withHeader("Content-Type","application/json")
+        ->withStatus(200);
+    }
+
 }

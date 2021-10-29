@@ -23,5 +23,7 @@ $app->get('/',\UserController::class . ":usuarios");
 
 $app->get('/{id}',\UserController::class . ":pesquisar");
 
+$app->delete('/{id}',\UserController::class . ":deletar");
+
 // Run app
 $app->run();
